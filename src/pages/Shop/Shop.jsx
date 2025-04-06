@@ -8,8 +8,6 @@ export default function Shop() {
         const requestCardSets = async () => {
             const response = await getCardSets();
 
-            console.log(response);
-
             setCardSets(response);
         }
 

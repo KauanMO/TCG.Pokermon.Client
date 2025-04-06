@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserInfo } from "../../api/users";
+import { getFormattedCurrency } from "../../utils/StringHelper";
 
 export default function Home() {
     const [userInfo, setUserInfo] = useState(
@@ -22,17 +23,10 @@ export default function Home() {
         requestUserInfo();
     }, [])
 
-    const getFormattedBalance = () => {
-        return "P" + userInfo.balance.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        });
-    }
-
     return <>
         <h1>Ola {userInfo.username}!</h1>
 
-        <h4>Saldo: {getFormattedBalance()}</h4>
+        <h4>Saldo: {getFormattedCurrency(userInfo.balance)}</h4>
 
         <ul>
             <li><a href="/shop">Loja</a></li>
