@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { getCardSetById } from "../../api/cardsets";
 import { getFormattedCurrency } from "../../utils/StringHelper";
 import styles from './CardSet.module.css';
+import { cardsDisplayCount } from "../../utils/GlobalVariables";
 
 export default function CardSet() {
     const [getCardsPage, setGetCardsPage] = useState(1);
@@ -43,7 +44,7 @@ export default function CardSet() {
             const response = await getCardSetById(params.cardSetId, getCardsPage);
 
             setCardSetInfo(response);
-            setCardsTotalPages(Math.ceil(response.totalCount / 20));
+            setCardsTotalPages(Math.ceil(response.totalCount / cardsDisplayCount));
         }
 
         requestCardSet();
@@ -60,8 +61,8 @@ export default function CardSet() {
             <div className={styles.cards_display}>
                 {
                     cardSetInfo.cards.map(card => {
-                        return <div key={card.externalCode}>
-                            <img src={card.images.small} alt={`${card.name}`} width={'130px'} />
+                        return <div className={styles.card_container} key={card.externalCode}>
+                            <img src={card.images.small} alt={`${card.name}`} width={'100%'} />
                         </div>
                     })
                 }
