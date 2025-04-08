@@ -30,6 +30,7 @@ export default function Home() {
 
         <ul>
             <li><a href="/shop">Loja</a></li>
+            <li><a href="/cards">Minhas cartas</a></li>
         </ul>
     </>
 }

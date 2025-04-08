@@ -1,0 +1,14 @@
+.cards_display_container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 40vh;
+}
+
+.cards_display {
+    display: flex;
+    gap: 1rem;
+    max-width: 100%;
+    flex-flow: wrap;
+    justify-content: center;
+}
