@@ -3,9 +3,10 @@ import { useParams } from "react-router";
 import { getCardSetById } from "../../api/cardsets";
 import { getFormattedCurrency } from "../../utils/StringHelper";
 import { cardsDisplayCount } from "../../utils/GlobalVariables";
+import { imagesPlaceHolder } from "../../utils/GlobalVariables";
+import { cardSetCardsMock } from "../../api/mock";
 import CardsDisplay from "../../components/cardsDisplay/CardsDisplay";
 import styles from './CardSet.module.css';
-import { imagesPlaceHolder } from "../../utils/GlobalVariables";
 
 export default function CardSet() {
     const [getCardsPage, setGetCardsPage] = useState(1);
@@ -35,7 +36,8 @@ export default function CardSet() {
                 large: imagesPlaceHolder,
             },
             subTypes: [''],
-            types: ['']
+            types: [''],
+            rarity: ''
         }]
     });
 
@@ -43,10 +45,16 @@ export default function CardSet() {
 
     useEffect(() => {
         const requestCardSet = async () => {
-            const response = await getCardSetById(params.cardSetId, getCardsPage);
+            try {
+                const response = await getCardSetById(params.cardSetId, getCardsPage);
+                console.log(response);
 
-            setCardSetInfo(response);
-            setCardsTotalPages(Math.ceil(response.totalCount / cardsDisplayCount));
+                setCardSetInfo(response);
+                setCardsTotalPages(Math.ceil(response.totalCount / cardsDisplayCount));
+            } catch (e) {
+                setCardSetInfo(cardSetCardsMock[getCardsPage - 1]);
+                setCardsTotalPages(Math.ceil(cardSetCardsMock[getCardsPage - 1].totalCount / cardsDisplayCount));
+            }
         }
 
         requestCardSet();
@@ -59,24 +67,12 @@ export default function CardSet() {
             <h2>Preço: {getFormattedCurrency(cardSetInfo.cardSet.price)}</h2>
         </div>
 
-        {/* <div className={styles.cards_display_container}>
-            <div className={styles.cards_display}>
-                {
-                    cardSetInfo.cards.map(card => {
-                        return <div onClick={e => cardOnClick(e)} className={styles.card_container} key={card.externalCode}>
-                            <img id={card.externalCode} src={card.images.small} alt={`${card.name}`} width={'100%'} height={'100%'} />
-                        </div>
-                    })
-                }
-            </div>
-        </div> */}
-
         <CardsDisplay cards={cardSetInfo.cards} />
 
-        <h2>
+        <div className={styles.page_controller}>
             <span onClick={() => { if (getCardsPage - 1 > 0) setGetCardsPage(getCardsPage - 1) }}>{'<'}</span>
             Página: {getCardsPage} / {cardsTotalPages}
             <span onClick={() => { if (getCardsPage + 1 <= cardsTotalPages) setGetCardsPage(getCardsPage + 1) }}>{'>'}</span>
-        </h2>
+        </div>
     </div>
 }

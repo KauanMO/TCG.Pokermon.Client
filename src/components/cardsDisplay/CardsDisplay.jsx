@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import styles from './CardsDisplay.module.css';
 import Modal from 'react-modal';
-import { getFormattedCurrency } from "../../utils/StringHelper";
 import Card from "../card/Card";
+import { getFormattedCurrency } from "../../utils/StringHelper";
 import { imagesPlaceHolder } from "../../utils/GlobalVariables";
+import styles from './CardsDisplay.module.css';
+import close_icon from '../../assets/close.png';
 
 export default function CardsDisplay({ cards, internal }) {
     const [cardModalOpen, setCardModalOpen] = useState(false);
@@ -19,7 +20,8 @@ export default function CardsDisplay({ cards, internal }) {
             large: imagesPlaceHolder,
         },
         subTypes: [''],
-        types: ['']
+        types: [''],
+        rarity: ''
     });
 
     const cardOnClick = e => {
@@ -29,23 +31,40 @@ export default function CardsDisplay({ cards, internal }) {
             // eslint-disable-next-line eqeqeq
             : c.externalCode == e.target.id));
         setCardModalOpen(true);
+
+        console.log(cards.find(c => internal
+            // eslint-disable-next-line eqeqeq
+            ? c.id == e.target.id
+            // eslint-disable-next-line eqeqeq
+            : c.externalCode == e.target.id));
     }
 
     Modal.setAppElement('#root');
 
     return <div className={styles.cards_display_container}>
         <Modal isOpen={cardModalOpen}>
-            <h1 onClick={() => { setCardModalOpen(false) }}>X</h1>
-            <h1>{selectedCard.name}</h1>
-            <img src={selectedCard.images.large} alt={selectedCard.name} />
+            <div className={styles.close_icon}>
+                <img width={'10px'} src={close_icon} alt='close icon' onClick={() => { setCardModalOpen(false) }} />
+            </div>
+
+            <span className={styles.modal_card_name}>{selectedCard.name}</span>
+
+            <Card id={internal ? selectedCard.id : selectedCard.externalCode}
+                image={selectedCard.images.small}
+                name={selectedCard.name}
+                width={'100%'}
+                height={'55%'}
+                holo={selectedCard.rarity.includes('Holo')}
+                borderRadius={'14px'}
+            />
             {
                 internal
-                    ? <h1>Valor: {getFormattedCurrency(selectedCard.price)}</h1>
-                    : <h1>Preço Base: {getFormattedCurrency(selectedCard.price)}</h1>
+                    ? <span>Valor: {getFormattedCurrency(selectedCard.price)}</span>
+                    : <span>Preço Base: {getFormattedCurrency(selectedCard.price)}</span>
             }
             {
                 selectedCard.evolvesFrom
-                    ? <h1>Evolui de: {selectedCard.evolvesFrom}</h1>
+                    ? <span>Evolui de: {selectedCard.evolvesFrom}</span>
                     : ''
             }
         </Modal>
@@ -61,7 +80,12 @@ export default function CardsDisplay({ cards, internal }) {
 
                         <Card id={internal ? card.id : card.externalCode}
                             image={card.images.small}
-                            name={card.name} />
+                            name={card.name}
+                            width={'75px'}
+                            height={'100px'}
+                            holo={card.rarity.includes('Holo')}
+                            borderRadius={'5px'}
+                        />
                     </div>
                 })
             }

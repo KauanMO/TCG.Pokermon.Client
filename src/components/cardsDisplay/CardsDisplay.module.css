@@ -2,13 +2,25 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 40vh;
+    height: fit-content;
 }
 
 .cards_display {
     display: flex;
-    gap: 1rem;
+    gap: .3rem;
     max-width: 100%;
     flex-flow: wrap;
     justify-content: center;
+}
+
+.close_icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.modal_card_name {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: linear-gradient(45deg, #ff0099, #493240, #f6f, #b6f, #50c878);
 }

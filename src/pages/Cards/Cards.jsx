@@ -3,6 +3,7 @@ import { getCardsByUserId } from "../../api/cards";
 import CardsDisplay from "../../components/cardsDisplay/CardsDisplay";
 import Card from "../../components/card/Card";
 import { imagesPlaceHolder } from "../../utils/GlobalVariables";
+import { myCardsMock } from "../../api/mock";
 
 export default function Cards() {
     const [userCards, setUserCards] = useState([
@@ -39,10 +40,15 @@ export default function Cards() {
 
     useEffect(() => {
         const requestGetUserCards = async () => {
-            const response = await getCardsByUserId();
-
-            setUserCards(response);
-            setDisplayCards(response)
+            try{
+                const response = await getCardsByUserId();            
+    
+                setUserCards(response);
+                setDisplayCards(response);
+            }catch(e) {
+                setUserCards(myCardsMock);
+                setDisplayCards(myCardsMock);
+            }
         }
 
         requestGetUserCards()

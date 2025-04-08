@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { getCardSets } from "../../api/cardsets";
+import { cardSetMock } from "../../api/mock";
 
 export default function Shop() {
     const [cardSets, setCardSets] = useState([])
 
     useEffect(() => {
         const requestCardSets = async () => {
-            const response = await getCardSets();
+            try {
+                const response = await getCardSets();
 
-            setCardSets(response);
+                setCardSets(response);
+            } catch (e) {
+                setCardSets(cardSetMock)
+            }
         }
 
         requestCardSets();
@@ -22,9 +27,7 @@ export default function Shop() {
         {
             cardSets.map(set => {
                 return <a href={`cardset/${set.id}`} key={set.id}>
-                    <div>
-                        {set.name}
-                    </div>
+                    <img src={set.logo} alt={set.id} width={'200px'} />
                 </a>
             })
         }

@@ -11,3 +11,7 @@
     overflow: hidden;
     font-family: "Roboto", sans-serif;
 }
+
+.ReactModal__Content {
+    overflow: hidden !important;
+}

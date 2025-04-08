@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUserInfo } from "../../api/users";
 import { getFormattedCurrency } from "../../utils/StringHelper";
+import { userInfoMock } from "../../api/mock";
 
 export default function Home() {
     const [userInfo, setUserInfo] = useState(
@@ -15,9 +16,14 @@ export default function Home() {
 
     useEffect(() => {
         const requestUserInfo = async () => {
-            const request = await getUserInfo();
+            try {
+                const request = await getUserInfo();
 
-            setUserInfo(request);
+                setUserInfo(request);
+
+            } catch (e) {
+                setUserInfo(userInfoMock);
+            }
         }
 
         requestUserInfo();
