@@ -29,8 +29,18 @@ export default function Card(props) {
         setRotation((prev) => ({ ...prev, x: 0, y: 0 }));
     };
 
-    return props.holo
-        ? <div style={{
+    const rarityStyle = {
+        normal: {
+            transform: `rotateY(${rotation.x}deg) rotateX(${rotation.y}deg)`,
+            transition: "transform 0.5s ease-out",
+            background: `radial-gradient(circle at ${highlight.x}% ${highlight.y}%, rgba(255, 255, 255, 0.4) 0%, transparent 80%)`,
+            position: 'relative',
+            borderRadius: props.borderRadius,
+            userSelect: 'none',
+            width: props.width,
+            height: props.height
+        },
+        holo: {
             transform: `rotateY(${rotation.x}deg) rotateX(${rotation.y}deg)`,
             transition: "transform 0.5s ease-out",
             background: `radial-gradient(circle at ${highlight.x}% ${highlight.y}%, rgba(255, 255, 255, 0.4) 0%, transparent 80%)`,
@@ -38,45 +48,30 @@ export default function Card(props) {
             width: props.width,
             height: props.height,
             borderRadius: props.borderRadius
-        }}
-            className={styles.card_holo}>
-            <img
-                id={props.id}
-                src={props.image}
-                alt={props.name}
-                height={'100%'}
-                width={'100%'}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleMouseLeave}
-                unselectable="on"
-                style={{
-                    userSelect: 'none'
-                }}
-            />
+        }
+    }
 
-            <div className={styles.holo}></div>
-        </div>
-
-        : <img
+    return <div style={props.holo ? rarityStyle.holo : rarityStyle.normal}
+        className={props.holo ? rarityStyle.card_holo : rarityStyle.normal}>
+        <img
             id={props.id}
             src={props.image}
             alt={props.name}
-            width={props.width}
-            height={props.height}
-            style={{
-                transform: `rotateY(${rotation.x}deg) rotateX(${rotation.y}deg)`,
-                transition: "transform 0.5s ease-out",
-                background: `radial-gradient(circle at ${highlight.x}% ${highlight.y}%, rgba(255, 255, 255, 0.4) 0%, transparent 80%)`,
-                position: 'relative',
-                borderRadius: props.borderRadius,
-                userSelect: 'none'
-            }}
+            height={'100%'}
+            width={'100%'}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleMouseLeave}
             unselectable="on"
+            style={{
+                userSelect: 'none'
+            }}
         />
+        {
+            props.holo
+                ? <div className={styles.holo}></div>
+                : ''
+        }
+    </div>
 }

@@ -7,6 +7,7 @@ import { imagesPlaceHolder } from "../../utils/GlobalVariables";
 import { cardSetCardsMock } from "../../api/mock";
 import CardsDisplay from "../../components/cardsDisplay/CardsDisplay";
 import styles from './CardSet.module.css';
+import Button from "../../components/button/Button";
 
 export default function CardSet() {
     const [getCardsPage, setGetCardsPage] = useState(1);
@@ -67,12 +68,26 @@ export default function CardSet() {
             <h2>Preço: {getFormattedCurrency(cardSetInfo.cardSet.price)}</h2>
         </div>
 
-        <CardsDisplay cards={cardSetInfo.cards} />
+        <div className={styles.cardset_card_display_container}>
+            <CardsDisplay cards={cardSetInfo.cards} />
 
-        <div className={styles.page_controller}>
-            <span onClick={() => { if (getCardsPage - 1 > 0) setGetCardsPage(getCardsPage - 1) }}>{'<'}</span>
-            Página: {getCardsPage} / {cardsTotalPages}
-            <span onClick={() => { if (getCardsPage + 1 <= cardsTotalPages) setGetCardsPage(getCardsPage + 1) }}>{'>'}</span>
+            <div className={styles.page_controller}>
+                <span onClick={() => { if (getCardsPage - 1 > 0) setGetCardsPage(getCardsPage - 1) }}>{'<'}</span>
+                Página: {getCardsPage} / {cardsTotalPages}
+                <span onClick={() => { if (getCardsPage + 1 <= cardsTotalPages) setGetCardsPage(getCardsPage + 1) }}>{'>'}</span>
+            </div>
+        </div>
+
+        <div className={styles.buy_button_container}>
+            <Button.Rounded
+                padding={'.6rem'}
+                width={'80%'}
+                text={'Comprar'}
+                color={'blue'}
+                textColor={'white'}
+                centeredText
+                className={'electric_flow'}
+            />
         </div>
     </div>
 }
