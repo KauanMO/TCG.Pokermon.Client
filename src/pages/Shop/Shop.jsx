@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getCardSets } from "../../api/cardsets";
 import { cardSetMock } from "../../api/mock";
+import CardSetDisplay from "../../components/cardSetDisplay/CardSetDisplay";
+import styles from './Shop.module.css';
 
 export default function Shop() {
     const [cardSets, setCardSets] = useState([])
@@ -12,7 +14,7 @@ export default function Shop() {
 
                 setCardSets(response);
             } catch (e) {
-                setCardSets(cardSetMock)
+                setCardSets(cardSetMock);
             }
         }
 
@@ -21,15 +23,10 @@ export default function Shop() {
 
     return <>
         <h1>Loja</h1>
-
         <h2>Pacotinhos</h2>
 
-        {
-            cardSets.map(set => {
-                return <a href={`cardset/${set.id}`} key={set.id}>
-                    <img src={set.logo} alt={set.id} width={'200px'} />
-                </a>
-            })
-        }
+        <div className={styles.cardsets_container}>
+            <CardSetDisplay cardSets={cardSets} />
+        </div>
     </>
 }

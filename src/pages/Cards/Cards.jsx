@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getCardsByUserId } from "../../api/cards";
 import CardsDisplay from "../../components/cardsDisplay/CardsDisplay";
-import Card from "../../components/card/Card";
 import { imagesPlaceHolder } from "../../utils/GlobalVariables";
 import { myCardsMock } from "../../api/mock";
 
@@ -18,7 +17,8 @@ export default function Cards() {
                 large: imagesPlaceHolder,
             },
             subTypes: [''],
-            types: ['']
+            types: [''],
+            rarity: ''
         }
     ]);
 
@@ -34,18 +34,19 @@ export default function Cards() {
                 large: imagesPlaceHolder,
             },
             subTypes: [''],
-            types: ['']
+            types: [''],
+            rarity: ''
         }
     ])
 
     useEffect(() => {
         const requestGetUserCards = async () => {
-            try{
-                const response = await getCardsByUserId();            
-    
+            try {
+                const response = await getCardsByUserId();
+
                 setUserCards(response);
                 setDisplayCards(response);
-            }catch(e) {
+            } catch (e) {
                 setUserCards(myCardsMock);
                 setDisplayCards(myCardsMock);
             }
@@ -58,14 +59,6 @@ export default function Cards() {
         <h1>
             Minhas cartas
         </h1>
-
-        {/* {
-            displayCards.map(card => {
-                return <div key={card.id}>
-                    <Card image={card.images.small} name={card.name} />
-                </div>
-            })
-        } */}
 
         <CardsDisplay internal cards={displayCards} />
     </>

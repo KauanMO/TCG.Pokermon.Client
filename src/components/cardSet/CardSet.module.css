@@ -1,0 +1,53 @@
+.container {
+    position: relative;
+    height: 200px;
+    width: 300px;
+    overflow: visible;
+    margin-top: 2rem;
+}
+
+.second_card_image,
+.first_card_image,
+.third_card_image {
+    position: absolute;
+    height: 100%;
+    overflow: visible;
+}
+
+.second_card_image img,
+.first_card_image img,
+.third_card_image img {
+    height: 100%;
+    width: 100%;
+    filter: drop-shadow(8px 8px 3px #000000);
+}
+
+.first_card_image {
+    z-index: -1;
+    left: 25%;
+}
+
+.second_card_image {
+    height: 100px;
+    height: 150px;
+    left: 5%;
+    z-index: -2;
+    transform: rotate(-35deg);
+}
+
+.third_card_image {
+    height: 100px;
+    height: 150px;
+    left: 55%;
+    z-index: -3;
+    transform: rotate(35deg);
+}
+
+.cardset_logo {
+    position: absolute;
+    bottom: 0;
+}
+
+.cardset_logo img {
+    width: 100%;
+}
